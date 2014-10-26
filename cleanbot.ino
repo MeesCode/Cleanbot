@@ -22,11 +22,7 @@ void setup(){
 }
 
 void loop(){
-  delay(50);
-  if(SonarLeft() <= 15 && SonarLeft > 0)
-    goRight(255);
-  else
-    goForward(255);
+// Add looping content here
 }
 
 // preset voids, do not change anything below this line //
