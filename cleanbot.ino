@@ -23,11 +23,20 @@ void setup(){
 
 void loop(){
 // Add looping content here
+  goForward(255);
+  if(SonarLeft() < 15)
+    goRight(255);
+  if(SonarRight() < 15)
+    goLeft(255);
+  if(SonarLeft() < 15 && SonarRight() < 15)
+    goForward(255);
+  delay(50);
+  //debug();
 }
 
 // preset voids, do not change anything below this line //
 
-void goFree(int speedL, int speedR){
+void goFree(int speedR, int speedL){
   digitalWrite(onFwdL, HIGH);
   digitalWrite(onRevL, LOW);
   digitalWrite(onFwdR, HIGH);
@@ -73,7 +82,7 @@ void goForward(int speedA){
   digitalWrite(onRevR, LOW);
 }
 
-void goLeft(int speedA){
+void goRight(int speedA){
   analogWrite(initL, speedA);
   analogWrite(initR, speedA);
   digitalWrite(onFwdL, LOW);
@@ -82,7 +91,7 @@ void goLeft(int speedA){
   digitalWrite(onRevR, LOW);
 }
 
-void goRight(int speedA){
+void goLeft(int speedA){
   analogWrite(initL, speedA);
   analogWrite(initR, speedA);
   digitalWrite(onFwdL, HIGH);
@@ -92,15 +101,24 @@ void goRight(int speedA){
 }
 
 int SonarFront(){
-  return int(sonarfront.ping()/US_ROUNDTRIP_CM);
+  if(int(sonarfront.ping()/US_ROUNDTRIP_CM) ==0)
+    return 0;
+  else
+    return int(sonarfront.ping()/US_ROUNDTRIP_CM);
 }
 
 int SonarLeft(){
-  return int(sonarleft.ping()/US_ROUNDTRIP_CM);
+  if(int(sonarleft.ping()/US_ROUNDTRIP_CM) ==0)
+    return 0;
+  else
+    return int(sonarleft.ping()/US_ROUNDTRIP_CM);
 }
 
 int SonarRight(){
-  return int(sonarright.ping()/US_ROUNDTRIP_CM);
+  if(int(sonarright.ping()/US_ROUNDTRIP_CM) ==0)
+    return 0;
+  else
+    return int(sonarright.ping()/US_ROUNDTRIP_CM);
 }
 
 void debug(){
@@ -111,3 +129,5 @@ void debug(){
   Serial.print(" Right: ");
   Serial.println(SonarRight());
 }
+
+
