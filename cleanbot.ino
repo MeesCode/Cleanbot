@@ -8,7 +8,8 @@ int onFwdR = 24;
 int onRevR = 25;
 
 NewPing sonarright(28, 29, 200);
-NewPing sonarfront(30, 31, 200);
+NewPing sonarfrontleft(30, 31, 200);
+NewPing sonarfrontright(34, 35, 200);
 NewPing sonarleft(32, 33, 200);
 
 void setup(){
@@ -23,16 +24,24 @@ void setup(){
 
 void loop(){
 // Add looping content here
-  if(SonarLeft() >= 20 && SonarRight() >= 20 && SonarFront() > 20)
+  if(SonarLeft() >= 20 && SonarRight() >= 20 && SonarFrontLeft() > 20)
     goForward(255);
-  if(SonarLeft() < 20 && SonarFront() > 20)
+  if(SonarLeft() < 20 && SonarFrontLeft() > 20)
     goRight(255);
-  if(SonarRight() < 20 && SonarFront() > 20)
+  if(SonarRight() < 20 && SonarFrontRight() > 20)
     goLeft(255);
-  if(SonarLeft() < 20 && SonarRight() < 20 && SonarFront() > 20)
+  if(SonarLeft() < 20 && SonarRight() < 20 && SonarFrontLeft() > 20)
     goForward(255);
-  if(SonarFront() < 20)
-    goLeft(255);
+  if(SonarFrontLeft() < 20 || SonarFrontRight() < 20){
+    if(SonarFrontLeft() < 20 && SonarFrontRight() < 20){
+      goLeft(255);
+    } else {
+      if(SonarFrontRight() < 20)
+        goLeft(255);
+      if(SonarFrontLeft() < 20)
+        goRight(255);
+    }
+  }
   delay(50);
   debug();
 }
@@ -103,11 +112,18 @@ void goLeft(int speedA){
   digitalWrite(onRevR, HIGH);
 }
 
-int SonarFront(){
-  if(int(sonarfront.ping()/US_ROUNDTRIP_CM) == 0)
+int SonarFrontLeft(){
+  if(int(sonarfrontleft.ping()/US_ROUNDTRIP_CM) == 0)
     return 255;
   else
-    return int(sonarfront.ping()/US_ROUNDTRIP_CM);
+    return int(sonarfrontleft.ping()/US_ROUNDTRIP_CM);
+}
+
+int SonarFrontRight(){
+  if(int(sonarfrontright.ping()/US_ROUNDTRIP_CM) == 0)
+    return 255;
+  else
+    return int(sonarfrontright.ping()/US_ROUNDTRIP_CM);
 }
 
 int SonarLeft(){
@@ -125,13 +141,13 @@ int SonarRight(){
 }
 
 void debug(){
-  Serial.print("Front: ");
-  Serial.print(SonarFront());
+  Serial.print("FrontLeft: ");
+  Serial.print(SonarFrontLeft());
+  Serial.print("FrontRight: ");
+  Serial.print(SonarFrontRight());
   Serial.print(" Left: ");
   Serial.print(SonarLeft());
   Serial.print(" Right: ");
   Serial.println(SonarRight());
 }
-
-
 
