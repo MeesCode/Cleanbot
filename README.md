@@ -4,6 +4,7 @@ Future things to be added include:
 - ~~An algorithim to stop the robot from crashing into the wall~~
 - ~~Being able to detect and avoid abstacles~~
 - ~~More advanced debug mode~~
+- ~~Added second front-sensor~~
 - Clean as much space as possible
 - Put evetything in a nice library
 
