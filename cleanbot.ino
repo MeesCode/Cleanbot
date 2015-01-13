@@ -33,17 +33,13 @@ void loop(){
   if(SonarLeft() < 20 && SonarRight() < 20 && SonarFrontLeft() > 20)
     goForward(255);
   if(SonarFrontLeft() < 20 || SonarFrontRight() < 20){
-    if(SonarFrontLeft() < 20 && SonarFrontRight() < 20){
+    if(SonarFrontRight() < SonarFrontLeft())
       goLeft(255);
-    } else {
-      if(SonarFrontRight() < 20)
-        goLeft(255);
-      if(SonarFrontLeft() < 20)
-        goRight(255);
-    }
+    if(SonarFrontLeft() < SonarFrontRight())
+      goRight(255);
   }
   delay(50);
-  debug();
+  //debug();
 }
 
 // preset voids, do not change anything below this line //
